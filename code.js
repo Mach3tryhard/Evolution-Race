@@ -109,9 +109,9 @@ function idle(ball)
 
 function outofboundsball(ball)
 {
-    if(ball.pozx>(window.innerWidth-50) || ball.pozx<0)
+    if(ball.pozx>(window.innerWidth-75) || ball.pozx<0)
         return true;
-    if(ball.pozy>(window.innerHeight-50) || ball.pozy<0)
+    if(ball.pozy>(window.innerHeight-75) || ball.pozy<0)
         return true;
     if(ball.pozx<120 && ball.pozy<60)
         return true;
@@ -211,11 +211,10 @@ function update()
         }
     }
 }
-if (!document.hidden) {
-    setInterval(spawnfood,1000);
-    create();
-    setInterval(update,1);
-}
+
+create();
+setInterval(update,1);
+setInterval(spawnfood,1000);
 
 /// MENIU
 function openNav() {
