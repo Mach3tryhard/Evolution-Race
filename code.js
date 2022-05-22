@@ -43,9 +43,9 @@ function makeball()
     bb.getball.style.borderRadius = '50%';
     bb.getball.style.position = 'absolute';
 
-    if(bb.race==0)bb.getball.style.background ='rgb(197,123,58)';  
-    if(bb.race==1)bb.getball.style.background ='rgb(58,197,123)';  
-    if(bb.race==2)bb.getball.style.background ='rgb(123,58,197)';  
+    if(bb.race==0)bb.getball.style.background ='rgba(197,123,58,0.8)';  
+    if(bb.race==1)bb.getball.style.background ='rgba(58,197,123,0.8)';  
+    if(bb.race==2)bb.getball.style.background ='rgba(123,58,197,0.8)';  
     document.body.appendChild(bb.getball);
     return bb;
 }
@@ -70,10 +70,12 @@ function makechildball(ball)
     bb.getball.style.borderRadius = '50%';
     bb.getball.style.position = 'absolute';
 
-    
-    if(bb.race==0)bb.getball.style.background ='#a129d6';  
-    if(bb.race==1)bb.getball.style.background ='#d6a129';  
-    if(bb.race==2)bb.getball.style.background ='#29d6a1';  
+    colorString = ball.getball.style.background;
+    colorsOnly = colorString.substring(colorString.indexOf('(') + 1,colorString.lastIndexOf(')')).split(/,\s*/),
+    colorsOnly.map(parseInt);
+    let change = Math.floor(Math.random() * 2);
+    colorsOnly[change]=(colorsOnly[change]+1)%256;
+    bb.getball.style.background = 'rgba('+colorsOnly[0]+','+colorsOnly[1]+','+colorsOnly[2]+',0.8)';
 
     document.body.appendChild(bb.getball);
     return bb;
