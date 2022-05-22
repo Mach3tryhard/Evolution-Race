@@ -2,19 +2,6 @@ body {
     background-color: #037d50;
 }
 
-button {
-    border-radius: 6px;
-    cursor: pointer;
-    border: 1px solid #000000;
-    background-color: transparent;
-    color: #000000;
-    font-size: 1.5em;
-    width: 15%;
-    zoom: 5;
-    height: 10%;
-    font-size: 20%;
-}
-
 /*MENIU*/
 .overlay {
     height: 100%;

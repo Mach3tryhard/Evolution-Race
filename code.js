@@ -5,8 +5,8 @@ function makefood()
 {
     let bb = {};
     bb.getfood=document.createElement("div");
-    bb.getfood.style.left = (bb.pozx = Math.floor(Math.random() * (window.innerWidth-50))) + 'px';
-    bb.getfood.style.top = (bb.pozy = Math.floor(Math.random() * (window.innerHeight-50))) + 'px';
+    bb.getfood.style.left = (bb.pozx = Math.floor(Math.random() * (window.innerWidth-50-120)+120)) + 'px';
+    bb.getfood.style.top = (bb.pozy = Math.floor(Math.random() * (window.innerHeight-50-60)+50)) + 'px';
     bb.getfood.style.width = 20 + 'px';
     bb.getfood.style.height = 20 + 'px';
     bb.getfood.style.borderRadius = '50%';
@@ -43,9 +43,9 @@ function makeball()
     bb.getball.style.borderRadius = '50%';
     bb.getball.style.position = 'absolute';
 
-    if(bb.race==0)bb.getball.style.background ='#a129d6';  
-    if(bb.race==1)bb.getball.style.background ='#d6a129';  
-    if(bb.race==2)bb.getball.style.background ='#29d6a1';  
+    if(bb.race==0)bb.getball.style.background ='rgb(197,123,58)';  
+    if(bb.race==1)bb.getball.style.background ='rgb(58,197,123)';  
+    if(bb.race==2)bb.getball.style.background ='rgb(123,58,197)';  
     document.body.appendChild(bb.getball);
     return bb;
 }
@@ -69,6 +69,8 @@ function makechildball(ball)
     bb.getball.style.height = 50 + 'px';
     bb.getball.style.borderRadius = '50%';
     bb.getball.style.position = 'absolute';
+
+    
     if(bb.race==0)bb.getball.style.background ='#a129d6';  
     if(bb.race==1)bb.getball.style.background ='#d6a129';  
     if(bb.race==2)bb.getball.style.background ='#29d6a1';  
@@ -212,9 +214,21 @@ function update()
     }
 }
 
+
 create();
-setInterval(update,1);
-setInterval(spawnfood,1000);
+var idupdate = setInterval(update,1);
+var idspawnfood = setInterval(spawnfood,1000);
+document.addEventListener("visibilitychange", function() {
+    if (document.hidden){
+        clearInterval(idupdate);
+        clearInterval(idspawnfood);
+    }
+    else 
+    {
+        idupdate = setInterval(update,1);
+        idspawnfood = setInterval(spawnfood,1000);
+    }
+});
 
 /// MENIU
 function openNav() {
