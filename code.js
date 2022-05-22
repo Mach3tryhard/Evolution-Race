@@ -133,19 +133,19 @@ function idle(ball)
 
 function outofboundsball(ball)
 {
-    if(ball.pozx>window.innerWidth-50)
-        ball.pozx=50;
-    if(ball.pozy>window.innerHeight-50)
-        ball.pozy=50;
-    if(ball.pozx<50)
-        ball.pozx=window.innerWidth-50;
-    if(ball.pozy<50)
-        ball.pozy=window.innerHeight-50;
-    if(ball.pozx<120 && ball.pozy<60)
+    if(ball.pozx>window.innerWidth-25)
+        ball.pozx=25;
+    if(ball.pozy>window.innerHeight-25)
+        ball.pozy=25;
+    if(ball.pozx<25)
+        ball.pozx=window.innerWidth-25;
+    if(ball.pozy<25)
+        ball.pozy=window.innerHeight-25;
+    /*if(ball.pozx<120 && ball.pozy<60)
     {
-        ball.pozx=window.innerWidth-50;
-        ball.pozy=window.innerHeight-50;
-    }
+        ball.pozx=window.innerWidth-25;
+        ball.pozy=window.innerHeight-25;
+    }*/
 }
 
 function move(ball)
