@@ -133,13 +133,19 @@ function idle(ball)
 
 function outofboundsball(ball)
 {
-    if(ball.pozx>(window.innerWidth-75) || ball.pozx<0)
-        return true;
-    if(ball.pozy>(window.innerHeight-75) || ball.pozy<0)
-        return true;
+    if(ball.pozx>window.innerWidth-50)
+        ball.pozx=50;
+    if(ball.pozy>window.innerHeight-50)
+        ball.pozy=50;
+    if(ball.pozx<50)
+        ball.pozx=window.innerWidth-50;
+    if(ball.pozy<50)
+        ball.pozy=window.innerHeight-50;
     if(ball.pozx<120 && ball.pozy<60)
-        return true;
-     return false;
+    {
+        ball.pozx=window.innerWidth-50;
+        ball.pozy=window.innerHeight-50;
+    }
 }
 
 function move(ball)
@@ -166,7 +172,7 @@ function create()
 
 function spawnfood()
 {
-    for(let i=0;i<60;i++)
+    for(let i=0;i<30;i++)
     {
         food.push(makefood());
     }
@@ -177,11 +183,7 @@ function update()
     ///delete out of bounds
     for(let i=0;i<ballz.length;i++)
     {
-        if(outofboundsball(ballz[i])==true)
-        {
-            ballz[i].getball.remove();
-            ballz.splice(i,1);
-        }
+        outofboundsball(ballz[i]);
     }
     ///devide and spawn
     for(let i=0;i<ballz.length;i++)
@@ -239,7 +241,7 @@ function update()
 
 create();
 var idupdate = setInterval(update,1);
-var idspawnfood = setInterval(spawnfood,3000);
+var idspawnfood = setInterval(spawnfood,5000);
 document.addEventListener("visibilitychange", function() {
     if (document.hidden){
         clearInterval(idupdate);
