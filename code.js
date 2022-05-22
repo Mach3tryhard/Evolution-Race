@@ -270,3 +270,13 @@ function openNav1() {
 function closeNav1() {
     document.getElementById("myNav1").style.width = "0%";
 }
+/// Setari
+
+function NiggaMode() {
+    document.body.style.backgroundColor = '#0B0B45';
+    document.body.style.color = 'whitesmoke';
+}
+function WhiteMode() {
+    document.body.style.backgroundColor = '#add8e6';
+    document.body.style.color = 'black';
+}

@@ -1,19 +1,21 @@
 body {
   overflow: hidden;
+  color: #000;
   background-color: #add8e6;
+}
+
+p {
+  color: whitesmoke;
+  zoom: 1.2;
 }
 
 button {
   border-radius: 6px;
   cursor: pointer;
-  border: 1px solid #000000;
+  border: 1px solid whitesmoke;
   background-color: transparent;
-  color: #000000;
+  color: whitesmoke;
   font-size: 1.5em;
-  width: 15%;
-  zoom: 5;
-  height: 10%;
-  font-size: 20%;
 }
 .hr1{
 width: 10%;
@@ -72,8 +74,4 @@ border-width: 10px;
   top: 15px;
   right: 35px;
   }
-}
-/*SETTINGS*/
-.Settings {
-  display: block;
 }
