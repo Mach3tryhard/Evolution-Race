@@ -4,6 +4,11 @@ body {
   background-color: #add8e6;
 }
 
+#copyright {
+  bottom: 0;
+  font-size: x-small;
+}
+
 p {
   color: whitesmoke;
   zoom: 1.2;

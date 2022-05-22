@@ -2,36 +2,61 @@
 <html>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 <head>
+    <link id="favicon" rel="icon" type="image/png" href="favicon.ico">
     <link rel="stylesheet" href="style.css">
+    <title>Evolution Race</title>
 </head>
 <body>
-    <!--Meniu-->
-    <div id="myNav" class="overlay">
-      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-      <div class="overlay-content">
-        <a href="#how_to_play">Tutorial</a>
-        <hr class="hr1">
-        <a href="#l0">Level 0</a>
-        <a href="#l1">Level 1</a>
-        <a href="#l2">Level 2</a>
-        <a href="#l3">Level 3</a>
-      </div>
+  <!--Meniu-->
+  <div id="myNav" class="overlay">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <div class="overlay-content">
+      <a href="#how_to_play">Tutorial</a>
+      <hr class="hr1">
+      <a href="level0.html">Level 0</a>
+      <a href="#l1">Level 1</a>
+      <a href="#l2">Level 2</a>
+      <a href="#l3">Level 3</a>
     </div>
-
+  </div>
   <div id="myNav1" class="overlay">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav1()">&times;</a>
     <div class="overlay-content">
-      <p>It is recommended to play in normal zoom.<br>Zooming in makes it easier and zooming out makes it harder.
-      <br>
-      <button type="button" onclick="NiggaMode()">Dark Mode</button>
-      <button type="button" onclick="WhiteMode()">Light Mode</button>
+      
+      <table class="table">
+        <tr>
+          <td><label for="audio" style="color:white; font-size:20px;">Audio: </label></td>
+          <td><audio controls loop><source src="music.mp3" type="audio/mpeg"></audio>
+        </tr>
+        <tr>
+          <td><label for="checkbox" style="color:white; font-size:20px;">Dark Mode: </label></td>
+          <td><button type="button" onclick="NiggaMode()">Dark Mode</button>
+        </tr>
+        <tr>
+          <td><label for="checkbox" style="color:white; font-size:20px;">Light Mode: </label></td>
+          <td><button type="button" onclick="WhiteMode()">Light Mode</button>
+        </tr>
+        <tr>
+          <td><label for="checkbox" style="color:white; font-size:20px;">Easy Mode: </label></td>
+          <td><button type="button" onclick="EasyMode()">Easy Mode</button></td>
+        </tr>
+        <tr>
+          <td><label for="audio" style="color:white; font-size:20px;">Normal Mode: </label></td>
+          <td><button type="button" onclick="NormalMode()">Normal Mode</button></td>
+        </tr>
+        <tr>
+        <tr>
+          <td><label for="checkbox" style="color:white; font-size:20px;">Hard Mode: </label></td>
+          <td><button type="button" onclick="HardMode()">Hard Mode</button></td>
+        </tr>
+      </table>
+      <hr class="hr1">
+      <p id="copyright">Morning Routine by Ghostrifter Official | https://soundcloud.com/ghostrifter-official<br>Music promoted by https://www.chosic.com/free-music/all/<br>Creative Commons CC BY-SA 3.0<br>https://creativecommons.org/licenses/by-sa/3.0/     
     </div>
   </div>
-
-  <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Play</span>
-  <br>
+  <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Play</span><br>
   <span class = "Settings" style="font-size:30px;cursor:pointer" onclick="openNav1()">&#9776; Settings</span>
-    <!--Jevascriptul-->
-    <script type="text/javascript" src="code.js"></script>
+  <!--Jevascriptul-->
+  <script type="text/javascript" src="code.js"></script>
 </body>
 </html>
