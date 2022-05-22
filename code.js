@@ -137,9 +137,9 @@ function outofboundsball(ball)
         ball.pozx=25;
     if(ball.pozy>window.innerHeight-25)
         ball.pozy=25;
-    if(ball.pozx<25)
+    if(ball.pozx<-25)
         ball.pozx=window.innerWidth-25;
-    if(ball.pozy<25)
+    if(ball.pozy<-25)
         ball.pozy=window.innerHeight-25;
     /*if(ball.pozx<120 && ball.pozy<60)
     {
@@ -250,7 +250,7 @@ document.addEventListener("visibilitychange", function() {
     else 
     {
         idupdate = setInterval(update,1);
-        idspawnfood = setInterval(spawnfood,1000);
+        idspawnfood = setInterval(spawnfood,5000);
     }
 });
 
