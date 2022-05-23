@@ -85,3 +85,57 @@ border-width: 10px;
   right: 35px;
   }
 }
+
+/*ANIMATED TEXT BEFORE START OF LEVEL*/
+.animated-box {
+  font-weight:bold;
+  text-align:center;
+  -webkit-animation:fontbulger 2s infinite;
+  -moz-animation:fontbulger 2s infinite;
+  -o-animation:fontbulger 2s infinite;
+  animation:fontbulger 2s infinite;
+}
+
+@-webkit-keyframes fontbulger  {
+  0%, 100% {
+     font-size:40px;
+  }
+  
+  50% {
+     font-size:60px;
+  }
+
+}
+
+@-moz-keyframes fontbulger  {
+  0%, 100% {
+     font-size:40px;
+  }
+  
+  50% {
+     font-size:60px;
+  }
+
+}
+
+@-o-keyframes fontbulger  {
+  0%, 100% {
+     font-size:40px;
+  }
+  
+  50% {
+     font-size:60px;
+  }
+
+}
+
+@keyframes fontbulger  {
+  0%, 100% {
+     font-size:40px;
+  }
+  
+  50% {
+     font-size:60px;
+  }
+
+}

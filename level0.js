@@ -1,19 +1,22 @@
+var ballz= [];
+var start_pressed = 0;
 
-function printMousePos(event) {
-  if(start_pressed==0)
-  {
-    ballz.push(makeball());
-    ballz[0].pozx=event.clientX;
-    ballz[0].pozx=event.clientY;
-    document.body.textContent ="clientX: " + event.clientX +" - clientY: " + event.clientY;
-    start_pressed=1;
-  }
+function GameStart(event) {
+    if(start_pressed==0 && (event.clientX>120 || event.clientY>100))
+    {
+        /// Adaugam celula
+        ballz.push(makeball());
+        ballz[0].pozx=event.clientX-27;
+        ballz[0].pozy=event.clientY-27;
+        move(ballz[0]);
+        start_pressed=1;
+        /// Stergem animatia
+        const element = document.getElementById("deleteonplay");
+        element.remove();
+    }
 }
 
-var start_pressed = 0;
-document.addEventListener("click", printMousePos);
-
-var ballz= [];
+document.addEventListener("click", GameStart);
 
 function makeball()
 {
@@ -23,12 +26,8 @@ function makeball()
     bb.hunger = 25;
     bb.velx = 0;
     bb.vely = 0;
-    bb.pozx = 50;
-    bb.pozy = 50;
-
-    if(bb.race==0)bb.bonusv=0.1;  
-    if(bb.race==1)bb.bonusv=0.25;
-    if(bb.race==2)bb.bonusv=0;
+    bb.pozx = NaN;
+    bb.pozy = NaN;
 
     if(bb.race==0)bb.vision=200;  
     if(bb.race==1)bb.vision=200;
@@ -115,10 +114,8 @@ function outofboundsball(ball)
 
 function move(ball)
 {
-    if(ball.velx<0)ball.pozx += ball.velx-ball.bonusv;
-    else ball.pozx += ball.velx+ball.bonusv;
-    if(ball.vely<0)ball.pozy += ball.vely-ball.bonusv;
-    else ball.pozy += ball.vely+ball.bonusv;
+    ball.pozx+=ball.velx;
+    ball.pozy+=ball.vely;
     ball.getball.style.left = ball.pozx+'px';
     ball.getball.style.top = ball.pozy+'px';
 }
@@ -143,7 +140,7 @@ function update()
     ///hunger and die
     for(let i=0;i<ballz.length;i++)
     {
-        losehunger(ballz[i]);
+        //losehunger(ballz[i]);
         if(ballz[i].hunger<0)
         {
             ballz[i].getball.remove();
@@ -167,3 +164,11 @@ document.addEventListener("visibilitychange", function() {
         idupdate = setInterval(update,1);
     }
 });
+
+function openNav1() {
+    document.getElementById("myNav1").style.width = "25%";
+}
+  
+function closeNav1() {
+    document.getElementById("myNav1").style.width = "0%";
+}
