@@ -2,7 +2,7 @@ var ballz= [];
 var start_pressed = 0;
 
 function GameStart(event) {
-    if(start_pressed==0 && (event.clientX>120 || event.clientY>100))
+    if(start_pressed==0 && (event.clientX>220 || event.clientY>70))
     {
         /// Adaugam celula
         ballz.push(makeball());
