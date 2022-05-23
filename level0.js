@@ -1,4 +1,6 @@
 var ballz= [];
+var sunz=[];
+
 var start_pressed = 0;
 
 function GameStart(event) {
@@ -8,7 +10,7 @@ function GameStart(event) {
         ballz.push(makeball());
         ballz[0].pozx=event.clientX-27;
         ballz[0].pozy=event.clientY-27;
-        move(ballz[0]);
+        moveball(ballz[0]);
         start_pressed=1;
         /// Stergem animatia
         const element = document.getElementById("deleteonplay");
@@ -89,6 +91,25 @@ function makechildball(ball)
     return bb;
 }
 
+function makesun()
+{
+    let bb = {};
+    bb.size=300;
+    bb.pozx=window.innerWidth/2;
+    bb.pozy=window.innerHeight/2;
+
+    bb.getsun=document.createElement("div");
+    bb.getsun.style.width = 300 + 'px';
+    bb.getsun.style.height = 300 + 'px';
+    bb.getsun.style.left = window.innerWidth/2 + 'px';
+    bb.getsun.style.top = window.innerHeight/2 + 'px';
+    bb.getsun.style.position = 'absolute';
+    bb.getsun.style.background ='#FFFF00';
+
+    document.body.appendChild(bb.getsun);
+    return bb;
+}
+
 function eat(ball,food)
 {
     food.getfood.remove();
@@ -112,7 +133,7 @@ function outofboundsball(ball)
         ball.pozy=window.innerHeight-25;
 }
 
-function move(ball)
+function moveball(ball)
 {
     ball.pozx+=ball.velx;
     ball.pozy+=ball.vely;
@@ -120,8 +141,32 @@ function move(ball)
     ball.getball.style.top = ball.pozy+'px';
 }
 
+function movesun(sun)
+{
+    sun.pozx=window.innerWidth/2;
+    sun.pozy=window.innerHeight/2;
+    sun.getsun.style.left = window.innerWidth/2 + 'px';
+    sun.getsun.style.top = window.innerHeight/2 + 'px';
+}
+
+function create()
+{
+    sunz.push(makesun());
+}
+
 function update()
 {
+    /// eating sun
+    for(let i=0;i<ballz.length;i++)
+    {
+        for(let j=0;j<sunz.length;j++)
+        {
+            if(ballz[i].pozx>sunz[j].pozx && ballz[i].pozy>sunz[j].pozy && ballz[i].pozx<(sunz[j].pozx+sunz[j].size) && ballz[i].pozy<(sunz[j].pozy+sunz[j].size))
+            {
+                ballz[i].hunger+=1;
+            }
+        }
+    }
     ///tp out of bounds
     for(let i=0;i<ballz.length;i++)
     {
@@ -140,7 +185,7 @@ function update()
     ///hunger and die
     for(let i=0;i<ballz.length;i++)
     {
-        //losehunger(ballz[i]);
+        losehunger(ballz[i]);
         if(ballz[i].hunger<0)
         {
             ballz[i].getball.remove();
@@ -150,10 +195,16 @@ function update()
     /// Rendering Movement
     for(let i=0;i<ballz.length;i++)
     {
-        move(ballz[i]);
+        moveball(ballz[i]);
+    }
+    for(let i=0;i<sunz.length;i++)
+    {
+        movesun(sunz[i]);
     }
 }
 
+
+create();
 var idupdate = setInterval(update,1);
 document.addEventListener("visibilitychange", function() {
     if (document.hidden){
