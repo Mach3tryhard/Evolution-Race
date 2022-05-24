@@ -25,7 +25,7 @@ function makeball()
     let bb = {};
 
     bb.race=Math.floor(Math.random() * 3);
-    bb.hunger = 25;
+    bb.hunger = 50;
     bb.velx = 0;
     bb.vely = 0;
     bb.pozx = NaN;
@@ -68,7 +68,7 @@ function makechildball(ball)
 
     bb.race=ball.race;
 
-    bb.hunger = ball.hunger/4;
+    bb.hunger = ball.hunger/2;
     bb.velx = 0;
     bb.vely = 0;
     posx=Math.floor(Math.random() * (10 + 10 + 1)) -10;
@@ -114,19 +114,12 @@ function makesun()
 
 function losehunger(ball)
 {
-    ball.hunger-=0.01;
-}
-
-function outofboundsball(ball)
-{
-    if(ball.pozx>window.innerWidth-25)
-        ball.pozx=25;
-    if(ball.pozy>window.innerHeight-25)
-        ball.pozy=25;
-    if(ball.pozx<-25)
-        ball.pozx=window.innerWidth-25;
-    if(ball.pozy<-25)
-        ball.pozy=window.innerHeight-25;
+    ball.hunger-=0.1;
+    colorString = ball.getball.style.background;
+    colorsOnly = colorString.substring(colorString.indexOf('(') + 1,colorString.lastIndexOf(')')).split(/,\s*/),
+    colorsOnly.map(parseInt);
+    colorsOnly[3]=ball.hunger/100;
+    ball.getball.style.background = 'rgba('+colorsOnly[0]+','+colorsOnly[1]+','+colorsOnly[2]+','+colorsOnly[3]+')';
 }
 
 function moveball(ball)
@@ -139,10 +132,10 @@ function moveball(ball)
 
 function movesun(sun)
 {
-    sun.pozx=window.innerWidth/2;
-    sun.pozy=window.innerHeight/2;
-    sun.getsun.style.left = window.innerWidth/2 + 'px';
-    sun.getsun.style.top = window.innerHeight/2 + 'px';
+    sun.pozx=window.innerWidth/2.5;
+    sun.pozy=window.innerHeight/2.5;
+    sun.getsun.style.left = window.innerWidth/2.5 + 'px';
+    sun.getsun.style.top = window.innerHeight/2.5 + 'px';
 }
 
 function gravity(ball1,ball2)
@@ -150,12 +143,12 @@ function gravity(ball1,ball2)
     var distantax = ball2.pozx-ball1.pozx;
     var distantay = ball2.pozy-ball1.pozy;
     var distanta = Math.sqrt(distantax * distantax + distantay * distantay);
-    if(distanta<60)
+    if(distanta<55)
     {
-        ball1.velx += distantax / distanta*-1;
-        ball1.vely += distantay / distanta*-1;
-        ball2.velx += distantax / distanta;
-        ball2.vely += distantay / distanta;
+        ball1.velx += distantax / distanta*-2;
+        ball1.vely += distantay / distanta*-2;
+        ball2.velx += distantax / distanta*2;
+        ball2.vely += distantay / distanta*2;
     }
     else
     {
@@ -164,6 +157,8 @@ function gravity(ball1,ball2)
         ball2.velx=0;
         ball2.vely=0;
     }
+    moveball(ball1);
+    moveball(ball2);
 }
 
 function create()
@@ -178,28 +173,23 @@ function update()
     {
         for(let j=0;j<sunz.length;j++)
         {
-            if(ballz[i].pozx>sunz[j].pozx && ballz[i].pozy>sunz[j].pozy && ballz[i].pozx<(sunz[j].pozx+sunz[j].size) && ballz[i].pozy<(sunz[j].pozy+sunz[j].size))
+            if(ballz[i].pozx>sunz[j].pozx-50 && ballz[i].pozy>sunz[j].pozy-50 && ballz[i].pozx<(sunz[j].pozx+sunz[j].size) && ballz[i].pozy<(sunz[j].pozy+sunz[j].size))
             {
-                ballz[i].hunger+=0.1;
+                ballz[i].hunger+=0.15;
             }
         }
-    }
-    ///tp out of bounds
-    for(let i=0;i<ballz.length;i++)
-    {
-        outofboundsball(ballz[i]);
     }
     ///devide and spawn
     for(let i=0;i<ballz.length;i++)
     {
-        if(ballz[i].hunger>50)
+        if(ballz[i].hunger>100)
         {
             ballz.push(makechildball(ballz[i]));
             posx=Math.floor(Math.random() * (10 + 10 + 1)) -10;
             posy=Math.floor(Math.random() * (10 + 10 + 1)) -10;
             ballz[i].pozx +=posx;
             ballz[i].pozy +=posy;
-            ballz[i].hunger/=4;
+            ballz[i].hunger/=2;
         }
     }
     ///hunger and die
