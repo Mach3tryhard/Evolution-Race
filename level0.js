@@ -71,8 +71,10 @@ function makechildball(ball)
     bb.hunger = ball.hunger/4;
     bb.velx = 0;
     bb.vely = 0;
-    bb.pozx = ball.pozx+50;
-    bb.pozy = ball.pozy;
+    posx=Math.floor(Math.random() * (10 + 10 + 1)) -10;
+    posy=Math.floor(Math.random() * (10 + 10 + 1)) -10;
+    bb.pozx = ball.pozx+posx;
+    bb.pozy = ball.pozy+posy;
     bb.vision = ball.vision;
     bb.bonusv = ball.bonusv;
 
@@ -110,12 +112,6 @@ function makesun()
     return bb;
 }
 
-function eat(ball,food)
-{
-    food.getfood.remove();
-    ball.hunger+=5;
-}
-
 function losehunger(ball)
 {
     ball.hunger-=0.01;
@@ -149,6 +145,27 @@ function movesun(sun)
     sun.getsun.style.top = window.innerHeight/2 + 'px';
 }
 
+function gravity(ball1,ball2)
+{
+    var distantax = ball2.pozx-ball1.pozx;
+    var distantay = ball2.pozy-ball1.pozy;
+    var distanta = Math.sqrt(distantax * distantax + distantay * distantay);
+    if(distanta<60)
+    {
+        ball1.velx += distantax / distanta*-1;
+        ball1.vely += distantay / distanta*-1;
+        ball2.velx += distantax / distanta;
+        ball2.vely += distantay / distanta;
+    }
+    else
+    {
+        ball1.velx=0;
+        ball1.vely=0;
+        ball2.velx=0;
+        ball2.vely=0;
+    }
+}
+
 function create()
 {
     sunz.push(makesun());
@@ -163,7 +180,7 @@ function update()
         {
             if(ballz[i].pozx>sunz[j].pozx && ballz[i].pozy>sunz[j].pozy && ballz[i].pozx<(sunz[j].pozx+sunz[j].size) && ballz[i].pozy<(sunz[j].pozy+sunz[j].size))
             {
-                ballz[i].hunger+=1;
+                ballz[i].hunger+=0.1;
             }
         }
     }
@@ -178,8 +195,11 @@ function update()
         if(ballz[i].hunger>50)
         {
             ballz.push(makechildball(ballz[i]));
+            posx=Math.floor(Math.random() * (10 + 10 + 1)) -10;
+            posy=Math.floor(Math.random() * (10 + 10 + 1)) -10;
+            ballz[i].pozx +=posx;
+            ballz[i].pozy +=posy;
             ballz[i].hunger/=4;
-            ballz[i].pozx-=50;
         }
     }
     ///hunger and die
@@ -200,6 +220,17 @@ function update()
     for(let i=0;i<sunz.length;i++)
     {
         movesun(sunz[i]);
+    }
+    /// Anti Gravity
+    if(ballz.length>1)
+    {
+        for(let i=0;i<ballz.length;i++)
+        {
+            for(let j=i+1;j<ballz.length;j++)
+            {
+                gravity(ballz[i],ballz[j]);
+            }
+        }
     }
 }
 
