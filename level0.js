@@ -24,16 +24,13 @@ function makeball()
 {
     let bb = {};
 
-    bb.race=Math.floor(Math.random() * 3);
     bb.hunger = 50;
     bb.velx = 0;
     bb.vely = 0;
     bb.pozx = NaN;
     bb.pozy = NaN;
-
-    if(bb.race==0)bb.vision=200;  
-    if(bb.race==1)bb.vision=200;
-    if(bb.race==2)bb.vision=200;
+    bb.bonusv=0;
+    bb.vision=0;
 
     bb.getball=document.createElement("div");
     bb.getball.style.width = 50 + 'px';
@@ -43,21 +40,8 @@ function makeball()
     bb.getball.style.border = 1 + 'px';
     bb.getball.style.border = 'solid';
 
-    if(bb.race==0)
-      {
-        bb.getball.style.background ='#a129d6';
-        bb.getball.style.borderColor = '#520475';
-      }
-    if(bb.race==1)
-    {
-      bb.getball.style.background ='#d6a129';
-      bb.getball.style.borderColor = '#805a05';
-    }
-    if(bb.race==2)
-    {
-      bb.getball.style.background ='#29d6a1';
-      bb.getball.style.borderColor = '#048059';
-    }
+    bb.getball.style.background ='#a129d6';
+    bb.getball.style.borderColor = '#000000';
     document.body.appendChild(bb.getball);
     return bb;
 }
@@ -65,8 +49,6 @@ function makeball()
 function makechildball(ball)
 {
     let bb = {};
-
-    bb.race=ball.race;
 
     bb.hunger = ball.hunger/2;
     bb.velx = 0;
@@ -122,10 +104,25 @@ function losehunger(ball)
     ball.getball.style.background = 'rgba('+colorsOnly[0]+','+colorsOnly[1]+','+colorsOnly[2]+','+colorsOnly[3]+')';
 }
 
+function updatesliders(ball)
+{
+    ball.vision = document.getElementById("Visionslider").value;
+    //ball.bonusv = document.getElementById("Speedslider").value;
+    colorString = ball.getball.style.background;
+    colorsOnly = colorString.substring(colorString.indexOf('(') + 1,colorString.lastIndexOf(')')).split(/,\s*/),
+    colorsOnly.map(parseInt);
+    colorsOnly[0]=document.getElementById("Redslider").value;
+    colorsOnly[1]=document.getElementById("Greenslider").value;
+    colorsOnly[2]=document.getElementById("Blueslider").value;
+    ball.getball.style.background = 'rgba('+colorsOnly[0]+','+colorsOnly[1]+','+colorsOnly[2]+','+colorsOnly[3]+')';
+}
+
 function moveball(ball)
 {
-    ball.pozx+=ball.velx;
-    ball.pozy+=ball.vely;
+    if(ball.velx<0)ball.pozx += ball.velx-ball.bonusv;
+    else ball.pozx += ball.velx+ball.bonusv;
+    if(ball.vely<0)ball.pozy += ball.vely-ball.bonusv;
+    else ball.pozy += ball.vely+ball.bonusv;
     ball.getball.style.left = ball.pozx+'px';
     ball.getball.style.top = ball.pozy+'px';
 }
@@ -161,13 +158,13 @@ function gravity(ball1,ball2)
     moveball(ball2);
 }
 
-function create()
-{
-    sunz.push(makesun());
-}
-
 function update()
 {
+    /// update color
+    for(let i=0;i<ballz.length;i++)
+    {
+        updatesliders(ballz[i]);
+    }
     /// eating sun
     for(let i=0;i<ballz.length;i++)
     {
@@ -224,8 +221,8 @@ function update()
     }
 }
 
-
-create();
+/// Utilizam functiile la infinit
+sunz.push(makesun());
 var idupdate = setInterval(update,1);
 document.addEventListener("visibilitychange", function() {
     if (document.hidden){
@@ -237,10 +234,49 @@ document.addEventListener("visibilitychange", function() {
     }
 });
 
+/// Game panel
+
 function openNav1() {
     document.getElementById("myNav1").style.width = "25%";
 }
   
 function closeNav1() {
     document.getElementById("myNav1").style.width = "0%";
+}
+
+/// sliders
+var slider1 = document.getElementById("Redslider");
+var output1 = document.getElementById("demor");
+output1.innerHTML = slider1.value;
+
+slider1.oninput = function() {
+  output1.innerHTML = this.value;
+}
+var slider2 = document.getElementById("Greenslider");
+var output2 = document.getElementById("demog");
+output2.innerHTML = slider2.value;
+
+slider2.oninput = function() {
+  output2.innerHTML = this.value;
+}
+var slider3 = document.getElementById("Blueslider");
+var output3 = document.getElementById("demob");
+output3.innerHTML = slider3.value;
+
+slider3.oninput = function() {
+  output3.innerHTML = this.value;
+}
+var slider4 = document.getElementById("Speedslider");
+var output4 = document.getElementById("demos");
+output4.innerHTML = slider4.value;
+
+slider4.oninput = function() {
+  output4.innerHTML = this.value;
+}
+var slider5 = document.getElementById("Visionslider");
+var output5 = document.getElementById("demov");
+output5.innerHTML = slider5.value;
+
+slider5.oninput = function() {
+  output5.innerHTML = this.value;
 }

@@ -141,11 +141,6 @@ function outofboundsball(ball)
         ball.pozx=window.innerWidth-25;
     if(ball.pozy<-25)
         ball.pozy=window.innerHeight-25;
-    /*if(ball.pozx<120 && ball.pozy<60)
-    {
-        ball.pozx=window.innerWidth-25;
-        ball.pozy=window.innerHeight-25;
-    }*/
 }
 
 function move(ball)
@@ -279,16 +274,4 @@ function NiggaMode() {
 function WhiteMode() {
     document.body.style.backgroundColor = '#add8e6';
     document.body.style.color = 'black';
-}
-
-function EasyMode() {
-    document.body.style.zoom = "120%";
-}
-
-function NormalMode() {
-    document.body.style.zoom = "100%";
-}
-
-function HardMode() {
-    document.body.style.zoom = "50%";
 }
