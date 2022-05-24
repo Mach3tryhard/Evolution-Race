@@ -31,6 +31,7 @@ function makeball()
     bb.pozy = NaN;
     bb.bonusv=0;
     bb.vision=0;
+    bb.metabolism=0.1;
 
     bb.getball=document.createElement("div");
     bb.getball.style.width = 50 + 'px';
@@ -59,6 +60,7 @@ function makechildball(ball)
     bb.pozy = ball.pozy+posy;
     bb.vision = ball.vision;
     bb.bonusv = ball.bonusv;
+    bb.metabolism=ball.metabolism;
 
     bb.getball=document.createElement("div");
     bb.getball.style.width = 50 + 'px';
@@ -96,7 +98,7 @@ function makesun()
 
 function losehunger(ball)
 {
-    ball.hunger-=0.1;
+    ball.hunger-=ball.metabolism;
     colorString = ball.getball.style.background;
     colorsOnly = colorString.substring(colorString.indexOf('(') + 1,colorString.lastIndexOf(')')).split(/,\s*/),
     colorsOnly.map(parseInt);
@@ -106,8 +108,10 @@ function losehunger(ball)
 
 function updatesliders(ball)
 {
+    ball.metabolism = document.getElementById("Metabolismslider").value/50;
+    ball.bonusv = document.getElementById("Speedslider").value/10;
+    ball.bonusv = parseFloat(ball.bonusv);
     ball.vision = document.getElementById("Visionslider").value;
-    //ball.bonusv = document.getElementById("Speedslider").value;
     colorString = ball.getball.style.background;
     colorsOnly = colorString.substring(colorString.indexOf('(') + 1,colorString.lastIndexOf(')')).split(/,\s*/),
     colorsOnly.map(parseInt);
@@ -119,10 +123,16 @@ function updatesliders(ball)
 
 function moveball(ball)
 {
-    if(ball.velx<0)ball.pozx += ball.velx-ball.bonusv;
-    else ball.pozx += ball.velx+ball.bonusv;
-    if(ball.vely<0)ball.pozy += ball.vely-ball.bonusv;
-    else ball.pozy += ball.vely+ball.bonusv;
+    if(ball.velx!=0)
+    {
+        if(ball.velx<0)ball.pozx += ball.velx-ball.bonusv;
+        else ball.pozx += ball.velx+ball.bonusv;
+    }
+    if(ball.vely!=0)
+    {
+        if(ball.vely<0)ball.pozy += ball.vely-ball.bonusv;
+        else ball.pozy += ball.vely+ball.bonusv;
+    }
     ball.getball.style.left = ball.pozx+'px';
     ball.getball.style.top = ball.pozy+'px';
 }
@@ -172,7 +182,7 @@ function update()
         {
             if(ballz[i].pozx>sunz[j].pozx-50 && ballz[i].pozy>sunz[j].pozy-50 && ballz[i].pozx<(sunz[j].pozx+sunz[j].size) && ballz[i].pozy<(sunz[j].pozy+sunz[j].size))
             {
-                ballz[i].hunger+=0.15;
+                ballz[i].hunger+=0.2;
             }
         }
     }
@@ -279,4 +289,11 @@ output5.innerHTML = slider5.value;
 
 slider5.oninput = function() {
   output5.innerHTML = this.value;
+}
+var slider6 = document.getElementById("Metabolismslider");
+var output6 = document.getElementById("demom");
+output6.innerHTML = slider6.value;
+
+slider6.oninput = function() {
+  output6.innerHTML = this.value;
 }
