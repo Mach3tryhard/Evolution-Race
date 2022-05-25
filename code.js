@@ -11,10 +11,10 @@ function makefood()
     bb.getfood.style.height = 20 + 'px';
     bb.getfood.style.borderRadius = '50%';
     bb.getfood.style.position = 'absolute';
-    bb.getfood.style.background = "red";
+    bb.getfood.style.background = "#32CD32";
     bb.getfood.style.border = 1 + 'px';
     bb.getfood.style.border = "solid";
-    bb.getfood.style.borderColor = "#910303";
+    bb.getfood.style.borderColor = "#348C31";
 
     document.body.appendChild(bb.getfood);
     return bb;
@@ -50,18 +50,18 @@ function makeball()
 
     if(bb.race==0)
       {
-        bb.getball.style.background ='#a129d6';
-        bb.getball.style.borderColor = '#520475';
+        bb.getball.style.background ='#0ed3f1';
+        bb.getball.style.borderColor = '#1e4a66';
       }
     if(bb.race==1)
     {
-      bb.getball.style.background ='#d6a129';
-      bb.getball.style.borderColor = '#805a05';
+      bb.getball.style.background ='#f10ed3';
+      bb.getball.style.borderColor = '#661e4a';
     }
     if(bb.race==2)
     {
-      bb.getball.style.background ='#29d6a1';
-      bb.getball.style.borderColor = '#048059';
+      bb.getball.style.background ='#d3f10e';
+      bb.getball.style.borderColor = '#4a661e';
     }
     document.body.appendChild(bb.getball);
     return bb;

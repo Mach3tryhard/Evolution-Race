@@ -9,6 +9,16 @@ body {
   font-size:20px;
 }
 
+.slidersmall {
+  overflow: hidden;
+  width: 50%;
+}
+
+.table{
+  margin-left: auto;
+  margin-right: auto;
+}
+
 #copyright {
   bottom: 0;
   font-size: x-small;

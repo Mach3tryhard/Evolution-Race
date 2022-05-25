@@ -32,6 +32,7 @@ function makeball()
     bb.bonusv=0;
     bb.vision=0;
     bb.metabolism=0.1;
+    bb.eat = 0;
 
     bb.getball=document.createElement("div");
     bb.getball.style.width = 50 + 'px';
@@ -61,6 +62,7 @@ function makechildball(ball)
     bb.vision = ball.vision;
     bb.bonusv = ball.bonusv;
     bb.metabolism=ball.metabolism;
+    bb.eat=ball.eat;
 
     bb.getball=document.createElement("div");
     bb.getball.style.width = 50 + 'px';
@@ -108,10 +110,18 @@ function losehunger(ball)
 
 function updatesliders(ball)
 {
+    /// Way of eating slider
+    if(document.getElementById("Sunslider").value==1)ball.eat=1;
+    if(document.getElementById("Grassslider").value==1)ball.eat=2;
+    if(document.getElementById("Meatslider").value==1)ball.eat=3;
+    ///Metabolism Slider
     ball.metabolism = document.getElementById("Metabolismslider").value/50;
+    ///Speed Slider
     ball.bonusv = document.getElementById("Speedslider").value/10;
     ball.bonusv = parseFloat(ball.bonusv);
+    /// Vision Slider
     ball.vision = document.getElementById("Visionslider").value;
+    ///Color slider
     colorString = ball.getball.style.background;
     colorsOnly = colorString.substring(colorString.indexOf('(') + 1,colorString.lastIndexOf(')')).split(/,\s*/),
     colorsOnly.map(parseInt);
@@ -119,6 +129,15 @@ function updatesliders(ball)
     colorsOnly[1]=document.getElementById("Greenslider").value;
     colorsOnly[2]=document.getElementById("Blueslider").value;
     ball.getball.style.background = 'rgba('+colorsOnly[0]+','+colorsOnly[1]+','+colorsOnly[2]+','+colorsOnly[3]+')';
+}
+
+function GameEnd()
+{
+    if(ballz.length>=30)
+    {
+        openNav()
+        closeNav1()
+    }
 }
 
 function moveball(ball)
@@ -170,6 +189,8 @@ function gravity(ball1,ball2)
 
 function update()
 {
+    /// Check for end game
+    GameEnd()
     /// update color
     for(let i=0;i<ballz.length;i++)
     {
@@ -180,7 +201,7 @@ function update()
     {
         for(let j=0;j<sunz.length;j++)
         {
-            if(ballz[i].pozx>sunz[j].pozx-50 && ballz[i].pozy>sunz[j].pozy-50 && ballz[i].pozx<(sunz[j].pozx+sunz[j].size) && ballz[i].pozy<(sunz[j].pozy+sunz[j].size))
+            if(ballz[i].pozx>sunz[j].pozx-50 && ballz[i].pozy>sunz[j].pozy-50 && ballz[i].pozx<(sunz[j].pozx+sunz[j].size) && ballz[i].pozy<(sunz[j].pozy+sunz[j].size) && ballz[i].eat==1)
             {
                 ballz[i].hunger+=0.2;
             }
@@ -244,7 +265,14 @@ document.addEventListener("visibilitychange", function() {
     }
 });
 
-/// Game panel
+/// Game panel Si MENIU
+function openNav(){
+    document.getElementById("myNav").style.width = "100%";
+}
+  
+function closeNav(){
+    document.getElementById("myNav").style.width = "0%";  
+}
 
 function openNav1() {
     document.getElementById("myNav1").style.width = "25%";
