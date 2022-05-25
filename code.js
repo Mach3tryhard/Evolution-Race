@@ -31,14 +31,7 @@ function makeball()
     bb.vely = 0;
     bb.pozx = Math.floor(Math.random() * (window.innerWidth-50));
     bb.pozy = Math.floor(Math.random() * (window.innerHeight-05));
-
-    if(bb.race==0)bb.bonusv=0.1;  
-    if(bb.race==1)bb.bonusv=0.25;
-    if(bb.race==2)bb.bonusv=0;
-
-    if(bb.race==0)bb.vision=200;  
-    if(bb.race==1)bb.vision=200;
-    if(bb.race==2)bb.vision=200;
+    bb.vision=2000;  
 
     bb.getball=document.createElement("div");
     bb.getball.style.width = 50 + 'px';
@@ -145,10 +138,8 @@ function outofboundsball(ball)
 
 function move(ball)
 {
-    if(ball.velx<0)ball.pozx += ball.velx-ball.bonusv;
-    else ball.pozx += ball.velx+ball.bonusv;
-    if(ball.vely<0)ball.pozy += ball.vely-ball.bonusv;
-    else ball.pozy += ball.vely+ball.bonusv;
+    ball.pozx += ball.velx
+    ball.pozy += ball.vely
     ball.getball.style.left = ball.pozx+'px';
     ball.getball.style.top = ball.pozy+'px';
 }
@@ -171,6 +162,29 @@ function spawnfood()
     {
         food.push(makefood());
     }
+}
+
+function gravity(ball1,ball2)
+{
+    var distantax = ball2.pozx-ball1.pozx;
+    var distantay = ball2.pozy-ball1.pozy;
+    var distanta = Math.sqrt(distantax * distantax + distantay * distantay);
+    if(distanta<55)
+    {
+        ball1.velx += distantax / distanta*-0.1;
+        ball1.vely += distantay / distanta*-0.1;
+        ball2.velx += distantax / distanta*0.1;
+        ball2.vely += distantay / distanta*0.1;
+    }
+    else
+    {
+        ball1.velx=0;
+        ball1.vely=0;
+        ball2.velx=0;
+        ball2.vely=0;
+    }
+    move(ball1);
+    move(ball2);    
 }
 
 function update()
@@ -205,30 +219,47 @@ function update()
     {
         move(ballz[i]);
     }
+    /// Gravity
+    if(ballz.length>1 && food.length>0)
+    {
+        for(let i=0;i<ballz.length;i++)
+        {
+            for(let j=i+1;j<ballz.length;j++)
+            {
+                gravity(ballz[i],ballz[j]);
+            }
+        }
+    }
     ///Changing velocity for eating and idle
     for(let i=0;i<ballz.length;i++)
     {
+        var distantamin=999999999,jmin;
         for(let j=0;j<food.length;j++)
         {
             var distantax = ballz[i].pozx-food[j].pozx;
             var distantay = ballz[i].pozy-food[j].pozy;
             var distanta = Math.sqrt(distantax * distantax + distantay * distantay);
-            if(distanta>ballz[i].vision && ballz[i].velx==0 && ballz[i].vely==0)
+            if(distanta<distantamin)
             {
-                idle(ballz[i]);
+                distantamin=distanta;
+                jmin=j;
             }
-            else
-            if(distanta>60 && distanta<ballz[i].vision)
-            {
-                goeatvelocity(ballz[i],food[j]);
-            }
-            if(distanta<60)
-            {
-                ballz[i].velx=0;
-                ballz[i].vely=0;
-                eat(ballz[i],food[j]);
-                food.splice(j, 1);
-            }
+        }
+        if(distantamin>ballz[i].vision && ballz[i].velx==0 && ballz[i].vely==0)
+        {
+            idle(ballz[i]);
+        }
+        else
+        if(distantamin>60 && distantamin<ballz[i].vision)
+        {
+            goeatvelocity(ballz[i],food[jmin]);
+        }
+        if(distantamin<60)
+        {
+            ballz[i].velx=0;
+            ballz[i].vely=0;
+            eat(ballz[i],food[jmin]);
+            food.splice(jmin, 1);
         }
     }
 }

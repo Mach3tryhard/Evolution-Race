@@ -1,8 +1,9 @@
 var ballz= [];
 var sunz=[];
+var food= [];
 
 var start_pressed = 0;
-var MAXpoints=5;
+var MAXpoints=100;
 
 function GameStart(event) {
     if(start_pressed==0 && (event.clientX>220 || event.clientY>70))
@@ -20,6 +21,25 @@ function GameStart(event) {
 }
 
 document.addEventListener("click", GameStart);
+
+function makefood()
+{
+    let bb = {};
+    bb.getfood=document.createElement("div");
+    bb.getfood.style.left = (bb.pozx = Math.floor(Math.random() * (window.innerWidth-50-150)+150)) + 'px';
+    bb.getfood.style.top = (bb.pozy = Math.floor(Math.random() * (window.innerHeight-50-60)+50)) + 'px';
+    bb.getfood.style.width = 20 + 'px';
+    bb.getfood.style.height = 20 + 'px';
+    bb.getfood.style.borderRadius = '50%';
+    bb.getfood.style.position = 'absolute';
+    bb.getfood.style.background = "#32CD32";
+    bb.getfood.style.border = 1 + 'px';
+    bb.getfood.style.border = "solid";
+    bb.getfood.style.borderColor = "#348C31";
+
+    document.body.appendChild(bb.getfood);
+    return bb;
+}
 
 function makeball()
 {
@@ -99,15 +119,6 @@ function makesun()
     return bb;
 }
 
-function losehunger(ball)
-{
-    ball.hunger-=ball.metabolism;
-    colorString = ball.getball.style.background;
-    colorsOnly = colorString.substring(colorString.indexOf('(') + 1,colorString.lastIndexOf(')')).split(/,\s*/),
-    colorsOnly.map(parseInt);
-    colorsOnly[3]=ball.hunger/100;
-    ball.getball.style.background = 'rgba('+colorsOnly[0]+','+colorsOnly[1]+','+colorsOnly[2]+','+colorsOnly[3]+')';
-}
 /// Limitarea sliderelor pt mai putine puncte
 document.getElementById('Visionslider').oninput = function(){
     if(MAXpoints-document.getElementById('Metabolismslider').value-document.getElementById('Speedslider').value-document.getElementById("Visionslider").value<0)
@@ -174,22 +185,40 @@ function updatesliders(ball)
     ball.getball.style.background = 'rgba('+colorsOnly[0]+','+colorsOnly[1]+','+colorsOnly[2]+','+colorsOnly[3]+')';
 }
 
-function GameEndWin()
+function losehunger(ball)
 {
-    if(ballz.length>=50)
+    ball.hunger-=ball.metabolism;
+    colorString = ball.getball.style.background;
+    colorsOnly = colorString.substring(colorString.indexOf('(') + 1,colorString.lastIndexOf(')')).split(/,\s*/),
+    colorsOnly.map(parseInt);
+    colorsOnly[3]=ball.hunger/100;
+    ball.getball.style.background = 'rgba('+colorsOnly[0]+','+colorsOnly[1]+','+colorsOnly[2]+','+colorsOnly[3]+')';
+}
+
+function goeatvelocity(ball,food)
+{
+    var distantax = ball.pozx-food.pozx;
+    var distantay = ball.pozy-food.pozy;
+    var distanta = Math.sqrt(distantax * distantax + distantay * distantay);
+    ball.velx=-distantax/distanta;
+    ball.vely=-distantay/distanta;
+}
+
+function spawnfood()
+{
+    for(let i=0;i<3;i++)
     {
-        openNav()
-        closeNav1()
+        if(start_pressed==1)
+        {
+            food.push(makefood());
+        }
     }
 }
 
-function GameEndLose()
+function eat(ball,food)
 {
-    if(ballz.length==0 && start_pressed==1)
-    {
-        openNav2()
-        closeNav1()
-    }
+    food.getfood.remove();
+    ball.hunger+=5;
 }
 
 function moveball(ball)
@@ -239,10 +268,19 @@ function gravity(ball1,ball2)
     moveball(ball2);
 }
 
+function GameEndLose()
+{
+    if(ballz.length==0 && start_pressed==1)
+    {
+        openNav2()
+        closeNav1()
+    }
+}
+
+
 function update()
 {
-    /// Check for end game
-    GameEndWin();
+    /// Reset game if you lose all cells
     GameEndLose();
     /// update color
     for(let i=0;i<ballz.length;i++)
@@ -250,13 +288,16 @@ function update()
         updatesliders(ballz[i]);
     }
     /// eating sun
-    for(let i=0;i<ballz.length;i++)
+    if(document.getElementById("Sunslider").value==1)
     {
-        for(let j=0;j<sunz.length;j++)
+        for(let i=0;i<ballz.length;i++)
         {
-            if(ballz[i].pozx>sunz[j].pozx-50 && ballz[i].pozy>sunz[j].pozy-50 && ballz[i].pozx<(sunz[j].pozx+sunz[j].size) && ballz[i].pozy<(sunz[j].pozy+sunz[j].size) && ballz[i].eat==1)
+            for(let j=0;j<sunz.length;j++)
             {
-                ballz[i].hunger+=0.2;
+                if(ballz[i].pozx>sunz[j].pozx-50 && ballz[i].pozy>sunz[j].pozy-50 && ballz[i].pozx<(sunz[j].pozx+sunz[j].size) && ballz[i].pozy<(sunz[j].pozy+sunz[j].size) && ballz[i].eat==1)
+                {
+                    ballz[i].hunger+=0.2;
+                }
             }
         }
     }
@@ -303,17 +344,50 @@ function update()
             }
         }
     }
+    ///Changing velocity for eating and idle
+    if(document.getElementById("Grassslider").value==1)
+    {
+        for(let i=0;i<ballz.length;i++)
+        {
+            var distantamin=999999999,jmin;
+            for(let j=0;j<food.length;j++)
+            {
+                var distantax = ballz[i].pozx-food[j].pozx;
+                var distantay = ballz[i].pozy-food[j].pozy;
+                var distanta = Math.sqrt(distantax * distantax + distantay * distantay);
+                if(distanta<distantamin)
+                {
+                    distantamin=distanta;
+                    jmin=j;
+                }
+            }
+            if(distantamin>60 && distantamin<ballz[i].vision)
+            {
+                goeatvelocity(ballz[i],food[jmin]);
+            }
+            if(distantamin<60)
+            {
+                ballz[i].velx=0;
+                ballz[i].vely=0;
+                eat(ballz[i],food[jmin]);
+                food.splice(jmin, 1);
+            }
+        }
+    }
 }
 
 /// Utilizam functiile la infinit
 sunz.push(makesun());
+var idspawn = setInterval(spawnfood,1000);
 var idupdate = setInterval(update,5);
 document.addEventListener("visibilitychange", function() {
     if (document.hidden){
         clearInterval(idupdate);
+        clearInterval(idspawn);
     }
     else 
-    {
+    {   
+        idspawn = setInterval(spawnfood,1000);
         idupdate = setInterval(update,5);
     }
 });
