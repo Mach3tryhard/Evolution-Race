@@ -1,6 +1,7 @@
 var ballz= [];
 var sunz=[];
 var food= [];
+var dum=[];
 
 var start_pressed = 0;
 var MAXpoints=100;
@@ -38,6 +39,32 @@ function makefood()
     bb.getfood.style.borderColor = "#348C31";
 
     document.body.appendChild(bb.getfood);
+    return bb;
+}
+
+function makedummyball()
+{
+    let bb = {};
+
+    bb.velx = 0;
+    bb.vely = 0;
+    bb.pozx =(bb.pozx = Math.floor(Math.random() * (window.innerWidth-50-150)+150));
+    bb.pozy =(bb.pozx = Math.floor(Math.random() * (window.innerWidth-50-150)+150));
+    bb.vision=200;
+
+    bb.getdummy=document.createElement("div");
+    bb.getdummy.style.left=(bb.pozx = Math.floor(Math.random() * (window.innerWidth-50-150)+150))+"px";
+    bb.getdummy.style.top=(bb.pozx = Math.floor(Math.random() * (window.innerWidth-50-150)+150))+"px";
+    bb.getdummy.style.width = 30 + 'px';
+    bb.getdummy.style.height = 30 + 'px';
+    bb.getdummy.style.borderRadius = '50%';
+    bb.getdummy.style.position = 'absolute';
+    bb.getdummy.style.border = 1 + 'px';
+    bb.getdummy.style.border = 'solid';
+
+    bb.getdummy.style.background ='#FA8072';
+    bb.getdummy.style.borderColor = '#ffffff';
+    document.body.appendChild(bb.getdummy);
     return bb;
 }
 
@@ -215,10 +242,27 @@ function spawnfood()
     }
 }
 
-function eat(ball,food)
+function spawndummy()
+{
+    for(let i=0;i<5;i++)
+    {
+        if(start_pressed==1)
+        {
+            dum.push(makedummyball());
+        }
+    }
+}
+
+function eatfood(ball,food)
 {
     food.getfood.remove();
     ball.hunger+=5;
+}
+
+function eatdummy(ball,dummy)
+{
+    dummy.getdummy.remove();
+    ball.hunger+=40;
 }
 
 function moveball(ball)
@@ -237,12 +281,43 @@ function moveball(ball)
     ball.getball.style.top = ball.pozy+'px';
 }
 
+function movedummy(dummy)
+{
+    dummy.pozx+=dummy.velx;
+    dummy.pozy+=dummy.vely;
+    dummy.getdummy.style.left = dummy.pozx + 'px';
+    dummy.getdummy.style.top = dummy.pozy + 'px';
+}
+
 function movesun(sun)
 {
     sun.pozx=window.innerWidth/2.5;
     sun.pozy=window.innerHeight/2.5;
     sun.getsun.style.left = window.innerWidth/2.5 + 'px';
     sun.getsun.style.top = window.innerHeight/2.5 + 'px';
+}
+
+function dummyrun(ball,dummy)
+{
+    var distantax = dummy.pozx-ball.pozx;
+    var distantay = dummy.pozy-ball.pozy;
+    var distanta = Math.sqrt(distantax * distantax + distantay * distantay);
+    if(distanta<dummy.vision)
+    {
+        dummy.velx += distantax *0.001;
+        dummy.vely += distantay *0.001;
+        if(dummy.pozx+dummy.velx<0 || dummy.pozx+dummy.velx>window.innerWidth-20 || dummy.pozy+dummy.vely<0 || dummy.pozy+dummy.vely>window.innerHeight-20)
+        {
+            dummy.velx=0;
+            dummy.vely=0;
+        }
+    }
+    else
+    {
+        dummy.velx=0;
+        dummy.vely=0;
+    }
+    movedummy(dummy);
 }
 
 function gravity(ball1,ball2)
@@ -277,9 +352,25 @@ function GameEndLose()
     }
 }
 
+function outofboundsball(ball)
+{
+    if(ball.pozx>window.innerWidth-25)
+        ball.pozx=25;
+    if(ball.pozy>window.innerHeight-25)
+        ball.pozy=25;
+    if(ball.pozx<-25)
+        ball.pozx=window.innerWidth-25;
+    if(ball.pozy<-25)
+        ball.pozy=window.innerHeight-25;
+}
 
 function update()
 {
+    ///Out of bounds
+    for(let i=0;i<ballz.length;i++)
+    {
+        outofboundsball(ballz[i]);
+    }
     /// Reset game if you lose all cells
     GameEndLose();
     /// update color
@@ -325,13 +416,20 @@ function update()
         }
     }
     /// Rendering Movement
-    for(let i=0;i<ballz.length;i++)
-    {
-        moveball(ballz[i]);
-    }
     for(let i=0;i<sunz.length;i++)
     {
         movesun(sunz[i]);
+    }
+    for(let i=0;i<ballz.length;i++)
+    {
+        for(let j=0;j<dum.length;j++)
+        {
+            dummyrun(ballz[i],dum[j]);
+        }
+    }
+    for(let i=0;i<ballz.length;i++)
+    {
+        moveball(ballz[i]);
     }
     /// Anti Gravity
     if(ballz.length>1)
@@ -344,7 +442,7 @@ function update()
             }
         }
     }
-    ///Changing velocity for eating and idle
+    ///Changing velocity for eating food
     if(document.getElementById("Grassslider").value==1)
     {
         for(let i=0;i<ballz.length;i++)
@@ -369,8 +467,38 @@ function update()
             {
                 ballz[i].velx=0;
                 ballz[i].vely=0;
-                eat(ballz[i],food[jmin]);
+                eatfood(ballz[i],food[jmin]);
                 food.splice(jmin, 1);
+            }
+        }
+    }
+    ///Changing velocity for eating dummys
+    if(document.getElementById("Meatslider").value==1)
+    {
+        for(let i=0;i<ballz.length;i++)
+        {
+            var distantamin=999999999,jmin;
+            for(let j=0;j<dum.length;j++)
+            {
+                var distantax = ballz[i].pozx-dum[j].pozx;
+                var distantay = ballz[i].pozy-dum[j].pozy;
+                var distanta = Math.sqrt(distantax * distantax + distantay * distantay);
+                if(distanta<distantamin)
+                {
+                    distantamin=distanta;
+                    jmin=j;
+                }
+            }
+            if(distantamin>40 && distantamin<ballz[i].vision)
+            {
+                goeatvelocity(ballz[i],dum[jmin]);
+            }
+            if(distantamin<40)
+            {
+                ballz[i].velx=0;
+                ballz[i].vely=0;
+                eatdummy(ballz[i],dum[jmin]);
+                dum.splice(jmin, 1);
             }
         }
     }
@@ -378,15 +506,18 @@ function update()
 
 /// Utilizam functiile la infinit
 sunz.push(makesun());
+var iddummy = setInterval(spawndummy,5000);
 var idspawn = setInterval(spawnfood,1000);
 var idupdate = setInterval(update,5);
 document.addEventListener("visibilitychange", function() {
     if (document.hidden){
+        clearInterval(spawndummy);
         clearInterval(idupdate);
         clearInterval(idspawn);
     }
     else 
     {   
+        iddummy = setInterval(spawndummy,5000);
         idspawn = setInterval(spawnfood,1000);
         idupdate = setInterval(update,5);
     }
