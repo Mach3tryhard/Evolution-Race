@@ -24,3 +24,11 @@ function showSlides(n) {
   slides[slideIndex-1].style.display = "block";  
   dots[slideIndex-1].className += " active";
 }
+
+function openNav1() {
+  document.getElementById("myNav1").style.width = "25%";
+}
+
+function closeNav1() {
+  document.getElementById("myNav1").style.width = "0%";
+}
