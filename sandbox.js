@@ -48,13 +48,13 @@ function makedummyball()
 
     bb.velx = 0;
     bb.vely = 0;
-    bb.pozx =(bb.pozx = Math.floor(Math.random() * (window.innerWidth-50-150)+150));
-    bb.pozy =(bb.pozx = Math.floor(Math.random() * (window.innerWidth-50-150)+150));
+    bb.pozx = Math.floor(Math.random() * (window.innerWidth-50-150)+150);
+    bb.pozy =Math.floor(Math.random() * (window.innerHeight-50-150)+150);
     bb.vision=200;
 
     bb.getdummy=document.createElement("div");
-    bb.getdummy.style.left=(bb.pozx = Math.floor(Math.random() * (window.innerWidth-50-150)+150))+"px";
-    bb.getdummy.style.top=(bb.pozx = Math.floor(Math.random() * (window.innerWidth-50-150)+150))+"px";
+    bb.getdummy.style.left=bb.pozx+"px";
+    bb.getdummy.style.top=bb.pozy+"px";
     bb.getdummy.style.width = 30 + 'px';
     bb.getdummy.style.height = 30 + 'px';
     bb.getdummy.style.borderRadius = '50%';
@@ -233,7 +233,7 @@ function goeatvelocity(ball,food)
 
 function spawnfood()
 {
-    for(let i=0;i<3;i++)
+    for(let i=0;i<1;i++)
     {
         if(start_pressed==1)
         {
@@ -244,7 +244,7 @@ function spawnfood()
 
 function spawndummy()
 {
-    for(let i=0;i<5;i++)
+    for(let i=0;i<1;i++)
     {
         if(start_pressed==1)
         {
@@ -506,19 +506,19 @@ function update()
 
 /// Utilizam functiile la infinit
 sunz.push(makesun());
-var iddummy = setInterval(spawndummy,5000);
-var idspawn = setInterval(spawnfood,1000);
+//var iddummy = setInterval(spawndummy,5000);
+//var idspawn = setInterval(spawnfood,1000);
 var idupdate = setInterval(update,5);
 document.addEventListener("visibilitychange", function() {
     if (document.hidden){
-        clearInterval(spawndummy);
+        //clearInterval(iddummy);
         clearInterval(idupdate);
-        clearInterval(idspawn);
+        //clearInterval(idspawn);
     }
     else 
     {   
-        iddummy = setInterval(spawndummy,5000);
-        idspawn = setInterval(spawnfood,1000);
+        //iddummy = setInterval(spawndummy,1000);
+        //idspawn = setInterval(spawnfood,1000);
         idupdate = setInterval(update,5);
     }
 });
