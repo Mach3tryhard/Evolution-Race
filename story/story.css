@@ -1,5 +1,12 @@
 * {box-sizing: border-box}
-body {font-family: Verdana, sans-serif; margin:0;background-color: #131315;background-image: url('story_background.jpg');background-repeat: no-repeat;}
+body {
+    font-family: Verdana, sans-serif;
+    margin:0;background-color: #131315;
+    background-image: url('story_background.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed; 
+    background-size: 100% 100%;
+}
 .mySlides {display: none}
 img {vertical-align: middle;}
 
@@ -9,6 +16,14 @@ img {vertical-align: middle;}
   position: relative;
   margin: auto;
   
+}
+
+#backbut {
+    margin-bottom: 10px;
+    margin-left : 10px;
+    position: fixed;
+    bottom: 0;
+    color: whitesmoke;
 }
 
 /* Next & previous buttons */
@@ -61,8 +76,8 @@ img {vertical-align: middle;}
 /* The dots/bullets/indicators */
 .dot {
   cursor: pointer;
-  height: 15px;
-  width: 15px;
+  height: 30px;
+  width: 30px;
   margin: 0 2px;
   background-color: #bbb;
   border-radius: 50%;
