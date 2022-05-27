@@ -25,6 +25,12 @@ function showSlides(n) {
   dots[slideIndex-1].className += " active";
 }
 
+function resetzoom(){
+   document.body.style.zoom = (window.innerWidth / window.outerWidth)
+}
+
+setInterval(resetzoom,0.0001);
+
 function openNav1() {
   document.getElementById("myNav1").style.width = "25%";
 }

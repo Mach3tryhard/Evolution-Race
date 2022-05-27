@@ -1,6 +1,8 @@
 /*Slides*/
 * {box-sizing: border-box}
 body {
+  overflow: hidden;
+    zoom: reset;
     font-family: Verdana, sans-serif;
     margin:0;background-color: #131315;
     background-image: url('story_background.jpg');
