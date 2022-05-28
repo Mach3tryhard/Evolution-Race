@@ -141,6 +141,9 @@ function makesun()
     bb.getsun.style.top = window.innerHeight/2 + 'px';
     bb.getsun.style.position = 'absolute';
     bb.getsun.style.background ='#ffffe0';
+    bb.getsun.style.border = 1 + 'px';
+    bb.getsun.style.border = 'solid';
+    bb.getsun.style.borderColor = '#b5b596';
 
     document.body.appendChild(bb.getsun);
     return bb;

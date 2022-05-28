@@ -9,6 +9,10 @@ body {
   font-size:20px;
 }
 
+audio{
+  controls autoplay
+}
+
 .slidersmall {
   overflow: hidden;
   width: 50%;
