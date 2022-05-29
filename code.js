@@ -83,10 +83,10 @@ function makechildball(ball)
     bb.getball.style.border = 'solid';
 
     colorString = ball.getball.style.background;
-    colorsOnly = colorString.substring(colorString.indexOf('(') + 1,colorString.lastIndexOf(')')).split(/,\s*/);
+    colorsOnly = colorString.substring(colorString.indexOf('(') + 1,colorString.lastIndexOf(')')).split(/,\s*/),
     colorsOnly.map(parseInt);
-    let change = Math.floor(Math.random() * 2);
-    colorsOnly[change]=(colorsOnly[change]+1)%256;
+    let change = Math.floor(Math.random() * 2.99);
+    colorsOnly[change]=(colorsOnly[change]+10)%256;
     bb.getball.style.background = 'rgba('+colorsOnly[0]+','+colorsOnly[1]+','+colorsOnly[2]+',0.8)';
     bb.getball.style.borderColor = ball.getball.style.borderColor;
 

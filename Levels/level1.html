@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+  <link id="favicon" rel="icon" type="image/png" href="../favicon.ico">
+  <link rel="stylesheet" href="../style.css">
+  <title>Evolution Race</title>
+</head>
+<body>
+    <div id="myNav2" class="overlay">
+        <div class="overlay-content">
+          <p>YOU LOSE</p>
+          <a href="../main.html">Back to Main Menu</a>
+          <a href="level1.html">Retry Level</a>
+        </div>
+      </div>
+      <div id="myNav" class="overlay">
+        <div class="overlay-content">
+          <p>YOU WIN</p>
+          <a href="../main.html">Back to Main Menu</a>
+          <a href="level1.html">Replay Level</a>
+          <a href="level2.html">Next Level</a>
+        </div>
+      </div>
+      <div id="myNav1" class="overlay">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav1()">&larr;</a>
+        <div class="overlay-content" style="top: 15%">
+          <a href="../main.html">Back to Main Menu</a>
+          <p>You Only Have 5 points to spend on sliders.</p>
+    
+          <div class="slidecontainer">
+            <input type="range" min="0" max="255" value="50" class="slider" id="Redslider">
+            <p>Red: <span id="demor"></span></p>
+          </div>
+    
+          <div class="slidecontainer">
+            <input type="range" min="0" max="255" value="50" class="slider" id="Greenslider">
+            <p>Green: <span id="demog"></span></p>
+          </div>
+    
+          <div class="slidecontainer">
+            <input type="range" min="0" max="255" value="50" class="slider" id="Blueslider">
+            <p>Blue: <span id="demob"></span></p>
+          </div>
+    
+          <table class="table">
+            <tr>
+              <td><label for="checkbox" class="text">Photosynthesis </label></td>
+              <td><input type="range" min="0" max="1" value="1" class="slidersmall" id="Sunslider">
+            </tr>
+            <tr>
+              <td><label for="checkbox" class="text">Herbivore </label></td>
+              <td><input type="range" min="0" max="1" value="0" class="slidersmall" id="Grassslider">
+            </tr>
+            <tr>
+              <td><label for="checkbox" class="text">Carnivore </label></td>
+              <td><input type="range" min="0" max="1" value="0" class="slidersmall" id="Meatslider">
+            </tr>
+          </table><br>
+    
+          <div class="slidecontainer">
+            <input type="range" min="0" max="10" value="0" class="slider" id="Speedslider">
+            <p>Speed: <span id="demos"></span></p>
+          </div>
+    
+          <div class="slidecontainer">
+            <input type="range" min="0" max="10" value="0" class="slider" id="Visionslider">
+            <p>Vision: <span id="demov"></span></p>
+          </div>
+          
+          <div class="slidecontainer">
+            <input type="range" min="0" max="10" value="0" class="slider" id="Metabolismslider">
+            <p>Metabolism: <span id="demom"></span></p>
+          </div>
+        </div>
+      </div>
+      
+      <span class = "Settings" style="font-size:30px;cursor:pointer" onclick="openNav1()">&#9776; Game Panel</span>
+      <div class="animated-box" id="deleteonplay">
+        Click anywhere to place your cell and start the level!<br>
+        Get 100 cells to win!
+      </div>  
+  <!--Javascriptul-->
+  <script type="text/javascript" src="level1.js"></script>
+</body>
+</html>
