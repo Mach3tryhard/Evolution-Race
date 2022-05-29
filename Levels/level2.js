@@ -24,7 +24,7 @@ document.addEventListener("click", GameStart);
 
 function GameEndWin()
 {
-    if(ballz.length>15)
+    if(ballz.length>=15)
     {
         openNav()
         closeNav1()
@@ -291,7 +291,7 @@ function spawndummy()
 function eatfood(ball,food)
 {
     food.getfood.remove();
-    ball.hunger+=5;
+    ball.hunger+=20;
 }
 
 function eatdummy(ball,dummy)
@@ -557,6 +557,8 @@ function update()
             }
         }
     }
+    ///update number of cells
+    document.getElementById("cells").innerHTML=ballz.length;
 }
 
 spawnfood()

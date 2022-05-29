@@ -4,7 +4,7 @@ var food= [];
 var dum=[];
 
 var start_pressed = 0;
-var MAXpoints=5;
+var MAXpoints=7;
 
 function GameStart(event) {
     if(start_pressed==0 && (event.clientX>220 || event.clientY>70))
@@ -24,7 +24,7 @@ document.addEventListener("click", GameStart);
 
 function GameEndWin()
 {
-    if(ballz.length>=100)
+    if(ballz.length>=80)
     {
         openNav()
         closeNav1()
@@ -44,8 +44,10 @@ function makefood()
 {
     let bb = {};
     bb.getfood=document.createElement("div");
-    bb.getfood.style.left = (bb.pozx = Math.floor(Math.random() * (window.innerWidth-50-150)+150)) + 'px';
-    bb.getfood.style.top = (bb.pozy = Math.floor(Math.random() * (window.innerHeight-50-60)+50)) + 'px';
+    bb.pozx = NaN;
+    bb.pozy = NaN;
+    bb.getfood.style.left = bb.pozx + 'px';
+    bb.getfood.style.top = bb.pozy + 'px';
     bb.getfood.style.width = 20 + 'px';
     bb.getfood.style.height = 20 + 'px';
     bb.getfood.style.borderRadius = '50%';
@@ -147,13 +149,13 @@ function makechildball(ball)
 function makesun()
 {
     let bb = {};
-    bb.size=300;
+    bb.size=NaN;
     bb.pozx=NaN;
     bb.pozy=NaN;
 
     bb.getsun=document.createElement("div");
-    bb.getsun.style.width = 300 + 'px';
-    bb.getsun.style.height = 300 + 'px';
+    bb.getsun.style.width = bb.size + 'px';
+    bb.getsun.style.height = bb.size + 'px';
     bb.getsun.style.left = bb.pozx + 'px';
     bb.getsun.style.top = bb.pozy + 'px';
     bb.getsun.style.position = 'absolute';
@@ -221,7 +223,7 @@ function updatesliders(ball)
     ball.bonusv = document.getElementById("Speedslider").value/10;
     ball.bonusv = parseFloat(ball.bonusv);
     /// Vision Slider
-    ball.vision = document.getElementById("Visionslider").value*100;
+    ball.vision = document.getElementById("Visionslider").value*200;
     ///Color slider
     colorString = ball.getball.style.background;
     colorsOnly = colorString.substring(colorString.indexOf('(') + 1,colorString.lastIndexOf(')')).split(/,\s*/),
@@ -253,19 +255,33 @@ function goeatvelocity(ball,food)
 
 function spawsun()
 {
-    for(let i=0;i<2;i++)
-    {
-        sunz.push(makesun());
-        sunz[i].pozx=(i+1)*400;
-        sunz[i].pozy=(i+1)*200;
-    }
+    sunz.push(makesun());
+    sunz[0].size=100;
+    sunz[0].pozy=500;
+    sunz[0].pozx=500;
+    sunz.push(makesun());
+    sunz[1].size=100;
+    sunz[1].pozy=500;
+    sunz[1].pozx=700;
+    sunz.push(makesun());
+    sunz[2].size=100;
+    sunz[2].pozy=500;
+    sunz[2].pozx=900;
+    sunz.push(makesun());
+    sunz[3].size=100;
+    sunz[3].pozy=500;
+    sunz[3].pozx=1100;
+    sunz.push(makesun());
+    sunz[4].size=100;
+    sunz[4].pozy=500;
+    sunz[4].pozx=1300;
 }
 
 function spawnfood()
 {
-    for(let i=0;i<1;i++)
+    if(start_pressed==1)
     {
-        if(start_pressed==1)
+        for(let i=0;i<1;i++)
         {
             food.push(makefood());
         }
@@ -319,8 +335,16 @@ function movedummy(dummy)
     dummy.getdummy.style.top = dummy.pozy + 'px';
 }
 
+function movefood(food)
+{
+    food.getfood.style.left = food.pozx + 'px';
+    food.getfood.style.top = food.pozy + 'px';
+}
+
 function movesun(sun)
 {
+    sun.getsun.style.height = sun.size + 'px';
+    sun.getsun.style.width = sun.size + 'px';
     sun.getsun.style.left = sun.pozx + 'px';
     sun.getsun.style.top = sun.pozy + 'px';
 }
@@ -408,6 +432,14 @@ function update()
     {
         updatesliders(ballz[i]);
     }
+    for(let i=0;i<ballz.length;i++)
+    {
+        if(document.getElementById("Sunslider").value==1)
+        {
+            ballz[i].velx=0;
+            ballz[i].vely=0;
+        }
+    }
     /// eating sun
     if(document.getElementById("Sunslider").value==1)
     {
@@ -446,6 +478,10 @@ function update()
         }
     }
     /// Rendering Movement
+    for(let i=0;i<food.length;i++)
+    {
+        movefood(food[i]);
+    }
     for(let i=0;i<sunz.length;i++)
     {
         movesun(sunz[i]);
@@ -489,11 +525,11 @@ function update()
                     jmin=j;
                 }
             }
-            if(distantamin>60 && distantamin<ballz[i].vision)
+            if(distantamin>50 && distantamin<ballz[i].vision)
             {
                 goeatvelocity(ballz[i],food[jmin]);
             }
-            if(distantamin<60)
+            if(distantamin<50)
             {
                 ballz[i].velx=0;
                 ballz[i].vely=0;

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link id="favicon" rel="icon" type="image/png" href="../favicon.ico">
+    <link rel="stylesheet" href="story.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>Evolution Race</title>
+</head>
+<body>
+    <div class="slideshow-container">
+        <div class="mySlides fade">
+        <div class="numbertext">1 / 3</div>
+        <img src="story1_ro.png" style="width:100%">
+        <div class="text"></div>
+        </div>
+
+        <div class="mySlides fade">
+        <div class="numbertext">2 / 3</div>
+        <img src="story2_ro.png" style="width:100%">
+        <div class="text"></div>
+        </div>
+
+        <div class="mySlides fade">
+        <div class="numbertext">3 / 3</div>
+        <img src="story3_ro.png" style="width:100%;height: 100%;">
+        <div class="text"></div>
+        </div>
+
+        <a class="prev" onclick="plusSlides(-1)">❮</a>
+        <a class="next" onclick="plusSlides(1)">❯</a>
+    </div>
+    <br>
+    <div style="text-align:center">
+        <span class="dot" onclick="currentSlide(1)"></span> 
+        <span class="dot" onclick="currentSlide(2)"></span> 
+        <span class="dot" onclick="currentSlide(3)"></span> 
+    </div>
+
+    </div>
+    <div id="myNav1" class="overlay">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav1()">&larr;</a>
+        <div class="overlay-content" style="top: 15%">
+            <a href="../main.html">Înapoi la meniul principal</a>
+        </div>
+    </div>
+    <span class = "Settings" style="font-size:20px;cursor:pointer;color: white;position:relative;top: 100%;left: 0%;" onclick="openNav1()">&#9776;Înapoi la meniul principal</span>
+    <script type="text/javascript" src="story.js"></script>
+</body>
+</html> 

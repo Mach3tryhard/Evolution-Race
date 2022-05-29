@@ -262,6 +262,8 @@ function update()
             food.splice(jmin, 1);
         }
     }
+    ///update number of cells
+    document.getElementById("cells").innerHTML=ballz.length;
 }
 
 

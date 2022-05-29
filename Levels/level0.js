@@ -306,6 +306,8 @@ function update()
             }
         }
     }
+    ///update number of cells
+    document.getElementById("cells").innerHTML=ballz.length;
 }
 
 /// Utilizam functiile la infinit
