@@ -4,7 +4,7 @@ var food= [];
 var dum=[];
 
 var start_pressed = 0;
-var MAXpoints=15;
+var MAXpoints=11;
 
 function GameStart(event) {
     if(start_pressed==0 && (event.clientX>220 || event.clientY>70))
@@ -24,7 +24,7 @@ document.addEventListener("click", GameStart);
 
 function GameEndWin()
 {
-    if(ballz.length>=90)
+    if(ballz.length>=40)
     {
         openNav()
         closeNav1()
@@ -44,8 +44,8 @@ function makefood()
 {
     let bb = {};
     bb.getfood=document.createElement("div");
-    bb.pozx = Math.floor(Math.random() * (window.innerWidth-50-150)+150);
-    bb.pozy = Math.floor(Math.random() * (window.innerWidth-50-60)+60);
+    bb.pozx = Math.floor(Math.random() * (window.innerWidth/2-50-150)+150);
+    bb.pozy = Math.floor(Math.random() * (window.innerWidth/2-50-60)+60);
     bb.getfood.style.left = bb.pozx + 'px';
     bb.getfood.style.top = bb.pozy + 'px';
     bb.getfood.style.width = 20 + 'px';
@@ -258,7 +258,7 @@ function spawnsun()
     sunz.push(makesun());
     sunz[0].size=100;
     sunz[0].pozy=500;
-    sunz[0].pozx=900;
+    sunz[0].pozx=1300;
 }
 
 function spawnfood()
@@ -549,7 +549,7 @@ function update()
 
 spawnsun()
 //var iddummy = setInterval(spawndummy,5000);
-var idspawn = setInterval(spawnfood,50);
+var idspawn = setInterval(spawnfood,100);
 var idupdate = setInterval(update,5);
 document.addEventListener("visibilitychange", function() {
     if (document.hidden){
@@ -560,7 +560,7 @@ document.addEventListener("visibilitychange", function() {
     else 
     {   
         //iddummy = setInterval(spawndummy,1000);
-        idspawn = setInterval(spawnfood,50);
+        idspawn = setInterval(spawnfood,100);
         idupdate = setInterval(update,5);
     }
 });
