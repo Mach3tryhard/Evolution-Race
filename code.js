@@ -83,7 +83,7 @@ function makechildball(ball)
     bb.getball.style.border = 'solid';
 
     colorString = ball.getball.style.background;
-    colorsOnly = colorString.substring(colorString.indexOf('(') + 1,colorString.lastIndexOf(')')).split(/,\s*/),
+    colorsOnly = colorString.substring(colorString.indexOf('(') + 1,colorString.lastIndexOf(')')).split(/,\s*/);
     colorsOnly.map(parseInt);
     let change = Math.floor(Math.random() * 2);
     colorsOnly[change]=(colorsOnly[change]+1)%256;
@@ -138,8 +138,8 @@ function outofboundsball(ball)
 
 function move(ball)
 {
-    ball.pozx += ball.velx
-    ball.pozy += ball.vely
+    ball.pozx += ball.velx;
+    ball.pozy += ball.vely;
     ball.getball.style.left = ball.pozx+'px';
     ball.getball.style.top = ball.pozy+'px';
 }
@@ -296,13 +296,33 @@ function openNav1() {
 function closeNav1() {
     document.getElementById("myNav1").style.width = "0%";
 }
+
+function openNav2() {
+    closeNav();
+    document.getElementById("myNav2").style.width = "100%";
+}
+
+function closeNav2() {
+    document.getElementById("myNav2").style.width = "0%";
+    openNav();
+}
+
+function openNav3() {
+    closeNav();
+    document.getElementById("myNav3").style.width = "100%";
+}
+
+function closeNav3() {
+    document.getElementById("myNav3").style.width = "0%";
+    openNav();
+}
 /// Setari
 
-function NiggaMode() {
+function DarkMode() {
     document.body.style.backgroundColor = '#0B0B45';
     document.body.style.color = 'whitesmoke';
 }
-function WhiteMode() {
+function LightMode() {
     document.body.style.backgroundColor = '#add8e6';
     document.body.style.color = 'black';
 }

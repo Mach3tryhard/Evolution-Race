@@ -9,15 +9,13 @@ body {
   font-size:20px;
 }
 
-audio{
-  controls autoplay
-}
-
 .slidersmall {
   overflow: hidden;
   width: 50%;
 }
-
+span{
+  z-index: 1;
+}
 .table{
   margin-left: auto;
   margin-right: auto;
