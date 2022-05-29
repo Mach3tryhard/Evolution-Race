@@ -318,6 +318,16 @@ function closeNav3() {
     document.getElementById("myNav3").style.width = "0%";
     openNav();
 }
+
+function openNav4() {
+    closeNav();
+    document.getElementById("myNav4").style.width = "100%";
+}
+
+function closeNav4() {
+    document.getElementById("myNav4").style.width = "0%";
+    openNav();
+}
 /// Setari
 
 function DarkMode() {

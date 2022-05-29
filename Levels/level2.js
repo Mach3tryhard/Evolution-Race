@@ -7,7 +7,8 @@ var start_pressed = 0;
 var MAXpoints=4;
 
 function GameStart(event) {
-    if(start_pressed==0 && (event.clientX>220 || event.clientY>70))
+    var intFrameWidth = window.innerWidth;
+    if(start_pressed==0 && event.clientX>intFrameWidth*25/100)
     {
         /// Adaugam celula
         ballz.push(makeball());

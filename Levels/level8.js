@@ -4,7 +4,7 @@ var food= [];
 var dum=[];
 
 var start_pressed = 0;
-var MAXpoints=100;
+var MAXpoints=20;
 
 function GameStart(event) {
     var intFrameWidth = window.innerWidth;
@@ -21,15 +21,34 @@ function GameStart(event) {
         element.remove();
     }
 }
-
 document.addEventListener("click", GameStart);
+
+function GameEndWin()
+{
+    if(ballz.length>=150)
+    {
+        openNav()
+        closeNav1()
+    }
+}
+
+function GameEndLose()
+{
+    if(ballz.length==0 && start_pressed==1)
+    {
+        openNav2()
+        closeNav1()
+    }
+}
 
 function makefood()
 {
     let bb = {};
     bb.getfood=document.createElement("div");
-    bb.getfood.style.left = (bb.pozx = Math.floor(Math.random() * (window.innerWidth-50-150)+150)) + 'px';
-    bb.getfood.style.top = (bb.pozy = Math.floor(Math.random() * (window.innerHeight-50-60)+50)) + 'px';
+    bb.pozx = Math.floor(Math.random() * (window.innerWidth-50-150)+150);
+    bb.pozy = Math.floor(Math.random() * (window.innerHeight-50-60)+50);
+    bb.getfood.style.left = bb.pozx + 'px';
+    bb.getfood.style.top = bb.pozy + 'px';
     bb.getfood.style.width = 20 + 'px';
     bb.getfood.style.height = 20 + 'px';
     bb.getfood.style.borderRadius = '50%';
@@ -50,7 +69,7 @@ function makedummyball()
     bb.velx = 0;
     bb.vely = 0;
     bb.pozx = Math.floor(Math.random() * (window.innerWidth-50-150)+150);
-    bb.pozy =Math.floor(Math.random() * (window.innerHeight-50-150)+150);
+    bb.pozy = Math.floor(Math.random() * (window.innerHeight-50-60)+50);
     bb.vision=200;
 
     bb.getdummy=document.createElement("div");
@@ -131,15 +150,15 @@ function makechildball(ball)
 function makesun()
 {
     let bb = {};
-    bb.size=300;
-    bb.pozx=window.innerWidth/2;
-    bb.pozy=window.innerHeight/2;
+    bb.size=NaN;
+    bb.pozx=NaN;
+    bb.pozy=NaN;
 
     bb.getsun=document.createElement("div");
-    bb.getsun.style.width = 300 + 'px';
-    bb.getsun.style.height = 300 + 'px';
-    bb.getsun.style.left = window.innerWidth/2 + 'px';
-    bb.getsun.style.top = window.innerHeight/2 + 'px';
+    bb.getsun.style.width = bb.size + 'px';
+    bb.getsun.style.height = bb.size + 'px';
+    bb.getsun.style.left = bb.pozx + 'px';
+    bb.getsun.style.top = bb.pozy + 'px';
     bb.getsun.style.position = 'absolute';
     bb.getsun.style.background ='#ffffe0';
     bb.getsun.style.border = 1 + 'px';
@@ -234,12 +253,19 @@ function goeatvelocity(ball,food)
     ball.velx=-distantax/distanta;
     ball.vely=-distantay/distanta;
 }
+function spawnsun()
+{
+    sunz.push(makesun());
+    sunz[0].size=50;
+    sunz[0].pozy=500;
+    sunz[0].pozx=900;
+}
 
 function spawnfood()
 {
-    for(let i=0;i<1;i++)
+    if(start_pressed==1)
     {
-        if(start_pressed==1)
+        for(let i=0;i<100;i++)
         {
             food.push(makefood());
         }
@@ -248,9 +274,9 @@ function spawnfood()
 
 function spawndummy()
 {
-    for(let i=0;i<1;i++)
+    if(start_pressed==1)
     {
-        if(start_pressed==1)
+        for(let i=0;i<10;i++)
         {
             dum.push(makedummyball());
         }
@@ -260,13 +286,13 @@ function spawndummy()
 function eatfood(ball,food)
 {
     food.getfood.remove();
-    ball.hunger+=5;
+    ball.hunger+=20;
 }
 
 function eatdummy(ball,dummy)
 {
     dummy.getdummy.remove();
-    ball.hunger+=40;
+    ball.hunger+=60;
 }
 
 function moveball(ball)
@@ -293,12 +319,18 @@ function movedummy(dummy)
     dummy.getdummy.style.top = dummy.pozy + 'px';
 }
 
+function movefood(food)
+{
+    food.getfood.style.left = food.pozx + 'px';
+    food.getfood.style.top = food.pozy + 'px';
+}
+
 function movesun(sun)
 {
-    sun.pozx=window.innerWidth/2.5;
-    sun.pozy=window.innerHeight/2.5;
-    sun.getsun.style.left = window.innerWidth/2.5 + 'px';
-    sun.getsun.style.top = window.innerHeight/2.5 + 'px';
+    sun.getsun.style.height = sun.size + 'px';
+    sun.getsun.style.width = sun.size + 'px';
+    sun.getsun.style.left = sun.pozx + 'px';
+    sun.getsun.style.top = sun.pozy + 'px';
 }
 
 function dummyrun(ball,dummy)
@@ -347,15 +379,6 @@ function gravity(ball1,ball2)
     moveball(ball2);
 }
 
-function GameEndLose()
-{
-    if(ballz.length==0 && start_pressed==1)
-    {
-        openNav2()
-        closeNav1()
-    }
-}
-
 function outofboundsball(ball)
 {
     if(ball.pozx>window.innerWidth-25)
@@ -370,6 +393,8 @@ function outofboundsball(ball)
 
 function update()
 {
+    /// END GAME
+    GameEndWin()
     ///Out of bounds
     for(let i=0;i<ballz.length;i++)
     {
@@ -381,6 +406,14 @@ function update()
     for(let i=0;i<ballz.length;i++)
     {
         updatesliders(ballz[i]);
+    }
+    for(let i=0;i<ballz.length;i++)
+    {
+        if(document.getElementById("Sunslider").value==1)
+        {
+            ballz[i].velx=0;
+            ballz[i].vely=0;
+        }
     }
     /// eating sun
     if(document.getElementById("Sunslider").value==1)
@@ -420,6 +453,10 @@ function update()
         }
     }
     /// Rendering Movement
+    for(let i=0;i<food.length;i++)
+    {
+        movefood(food[i]);
+    }
     for(let i=0;i<sunz.length;i++)
     {
         movesun(sunz[i]);
@@ -463,11 +500,11 @@ function update()
                     jmin=j;
                 }
             }
-            if(distantamin>60 && distantamin<ballz[i].vision)
+            if(distantamin>50 && distantamin<ballz[i].vision)
             {
                 goeatvelocity(ballz[i],food[jmin]);
             }
-            if(distantamin<60)
+            if(distantamin<50)
             {
                 ballz[i].velx=0;
                 ballz[i].vely=0;
@@ -510,21 +547,21 @@ function update()
     document.getElementById("cells").innerHTML=ballz.length;
 }
 
-/// Utilizam functiile la infinit
-sunz.push(makesun());
-//var iddummy = setInterval(spawndummy,5000);
-//var idspawn = setInterval(spawnfood,1000);
+spawndummy();
+spawnsun();
+var iddummy = setInterval(spawndummy,5000);
+var idspawn = setInterval(spawnfood,10000);
 var idupdate = setInterval(update,5);
 document.addEventListener("visibilitychange", function() {
     if (document.hidden){
-        //clearInterval(iddummy);
+        clearInterval(iddummy);
         clearInterval(idupdate);
-        //clearInterval(idspawn);
+        clearInterval(idspawn);
     }
     else 
     {   
-        //iddummy = setInterval(spawndummy,1000);
-        //idspawn = setInterval(spawnfood,1000);
+        iddummy = setInterval(spawndummy,5000);
+        idspawn = setInterval(spawnfood,10000);
         idupdate = setInterval(update,5);
     }
 });
