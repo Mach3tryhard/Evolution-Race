@@ -46,7 +46,7 @@ function makefood()
     let bb = {};
     bb.getfood=document.createElement("div");
     bb.pozx = Math.floor(Math.random() * (window.innerWidth/2-50-150)+150);
-    bb.pozy = Math.floor(Math.random() * (window.innerWidth/2-50-60)+60);
+    bb.pozy = Math.floor(Math.random() * (window.innerHeight-50-60)+60);
     bb.getfood.style.left = bb.pozx + 'px';
     bb.getfood.style.top = bb.pozy + 'px';
     bb.getfood.style.width = 20 + 'px';
